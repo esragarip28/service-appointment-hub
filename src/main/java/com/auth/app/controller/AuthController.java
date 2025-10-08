@@ -11,6 +11,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,6 +43,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String rawPassword = "admin1234";  // mevcut düz şifre
+        String encodedPassword = encoder.encode(rawPassword);
+        System.out.println("Encoded password: "+encodedPassword);
         AuthResponseDto response = authService.login(request);
         return ResponseEntity.ok(response);
     }
