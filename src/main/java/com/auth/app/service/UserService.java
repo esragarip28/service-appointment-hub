@@ -115,24 +115,21 @@ public class UserService {
        return userResponseDtos;
     }
 
-    public List<UserResponseDto> findAllByCriteria(String fullName, String email, String role, Pageable pageable){
-        List<UserResponseDto> userResponseDtos = new ArrayList<>();
-        Page<User> users =userRepository.findAllWithFilters(fullName, email, role, pageable);
-       List<User> userList = users.getContent();
-        if (!CollectionUtils.isEmpty(userList)){
-            users.forEach(u->{
-                UserResponseDto userResponseDto = new UserResponseDto();
-                userResponseDto.setUserId(u.getUserId());
-                userResponseDto.setActive(u.getActive());
-                userResponseDto.setUserType(u.getUserType());
-                userResponseDto.setEmail(u.getEmail());
-                userResponseDto.setCreatedAt(u.getCreatedAt());
-                userResponseDto.setFullName(u.getFullName());
-                userResponseDto.setPhoneNumber(u.getPhoneNumber());
-                userResponseDtos.add(userResponseDto);
-            });
-        }
+    public Page<UserResponseDto> findAllByCriteria(String fullName, String email, String role, Pageable pageable) {
+        Page<User> users = userRepository.findAllWithFilters(fullName, email, role, pageable);
+        Page<UserResponseDto> dtoPage = users.map(u -> {
+            UserResponseDto userResponseDto = new UserResponseDto();
+            userResponseDto.setUserId(u.getUserId());
+            userResponseDto.setActive(u.getActive());
+            userResponseDto.setUserType(u.getUserType());
+            userResponseDto.setEmail(u.getEmail());
+            userResponseDto.setCreatedAt(u.getCreatedAt());
+            userResponseDto.setFullName(u.getFullName());
+            userResponseDto.setPhoneNumber(u.getPhoneNumber());
+            return userResponseDto;
+        });
 
-        return userResponseDtos;
+        return dtoPage;
     }
+
 }

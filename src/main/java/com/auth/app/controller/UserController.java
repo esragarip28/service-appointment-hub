@@ -5,6 +5,7 @@ import com.auth.app.dto.UserResponseDto;
 import com.auth.app.entity.User;
 import com.auth.app.service.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,12 +48,25 @@ public class UserController {
     }
 
     @GetMapping("/get/all/by/criteria")
-    public ResponseEntity<List<UserResponseDto>> getAllUser(
+    public ResponseEntity<Page<UserResponseDto>> getAllUser(
             @RequestParam(required = false) String fullName,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String role,
-            Pageable pageable) {
-         List<UserResponseDto> users = userService.findAllByCriteria(fullName, email, role, pageable);
+            @RequestParam(defaultValue = "0") int page,            // sayfa numarası
+            @RequestParam(defaultValue = "10") int size,           // sayfa kapasitesi
+            @RequestParam(required = false) String sortBy,         // sıralama alanı
+            @RequestParam(defaultValue = "asc") String sortDir,    // asc veya desc
+            @RequestParam(required = false) Integer startIndex     // opsiyonel startIndex
+    ) {
+        if (startIndex != null && size > 0) {
+            page = startIndex / size;
+        }
+
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<UserResponseDto> users = userService.findAllByCriteria(fullName, email, role, pageable);
+
         return ResponseEntity.ok(users);
     }
 

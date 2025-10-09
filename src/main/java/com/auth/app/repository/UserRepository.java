@@ -19,17 +19,29 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByEmailAndActiveTrue(String email);
 
     boolean existsByEmail(String email);
-
-    @Query("""
-    SELECT u FROM User u
-    WHERE (:fullName IS NULL OR LOWER(u.fullName) LIKE LOWER(CONCAT('%', :fullName, '%')))
-      AND (:email IS NULL OR LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%')))
+    @Query(value = """
+    SELECT u.*
+    FROM users u
+    WHERE (:fullName IS NULL OR LOWER(CAST(u.full_name AS text)) LIKE LOWER(CONCAT('%', :fullName, '%')))
+      AND (:email IS NULL OR LOWER(CAST(u.email AS text)) LIKE LOWER(CONCAT('%', :email, '%')))
       AND (:role IS NULL OR u.role = :role)
-""")
-    Page<User> findAllWithFilters(@Param("fullName") String fullName,
-                                  @Param("email") String email,
-                                  @Param("role") String role,
-                                  Pageable pageable);
+    """,
+            countQuery = """
+    SELECT count(*)
+    FROM users u
+    WHERE (:fullName IS NULL OR LOWER(CAST(u.full_name AS text)) LIKE LOWER(CONCAT('%', :fullName, '%')))
+      AND (:email IS NULL OR LOWER(CAST(u.email AS text)) LIKE LOWER(CONCAT('%', :email, '%')))
+      AND (:role IS NULL OR u.role = :role)
+    """,
+            nativeQuery = true)
+    Page<User> findAllWithFilters(
+            @Param("fullName") String fullName,
+            @Param("email") String email,
+            @Param("role") String role,
+            Pageable pageable
+    );
+
+
 
 
 }
