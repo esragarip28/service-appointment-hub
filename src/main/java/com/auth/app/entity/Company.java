@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "company")
@@ -17,10 +15,9 @@ import java.util.UUID;
 public class Company {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "company_id", updatable = false, nullable = false)
-    private UUID companyId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
     @Column(name = "company_name", nullable = false)
     private String companyName;
@@ -31,8 +28,26 @@ public class Company {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "contact_info")
+    private String contactInfo;
+
     @Column(name = "address")
     private String address;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "neighborhood")
+    private String neighborhood;
+
+    @Column(name = "sector")
+    private String sector;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

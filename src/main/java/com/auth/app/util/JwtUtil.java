@@ -35,7 +35,7 @@ public class JwtUtil {
 
     public String generateAccessToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getUserId().toString());
+        claims.put("userId", user.getId().toString());
         claims.put("email", user.getEmail());
 
         if (user.getRole()!=null){
@@ -46,11 +46,11 @@ public class JwtUtil {
         }
 
         if (user.getCompany() != null) {
-            claims.put("companyId", user.getCompany().getCompanyId().toString());
+            claims.put("companyId", user.getCompany().getId().toString());
         }
 
         if (user.getCustomer() != null) {
-            claims.put("customerId", user.getCustomer().getCustomerId().toString());
+            claims.put("customerId", user.getCustomer().getId().toString());
         }
 
         return createToken(claims, user.getEmail(), accessTokenExpiration);
@@ -58,7 +58,7 @@ public class JwtUtil {
 
     public String generateRefreshToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getUserId().toString());
+        claims.put("userId", user.getId().toString());
         claims.put("tokenType", "refresh");
 
         return createToken(claims, user.getEmail(), refreshTokenExpiration);

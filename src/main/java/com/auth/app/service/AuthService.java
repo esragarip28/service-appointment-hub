@@ -115,13 +115,13 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(jwtUtil.getAccessTokenExpiration())
-                .userId(user.getUserId())
+                .userId(user.getId())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .userType(user.getUserType())
-                .companyId(user.getCompany() != null ? user.getCompany().getCompanyId() : null)
-                .customerId(user.getCustomer() != null ? user.getCustomer().getCustomerId() : null)
+                .companyId(user.getCompany() != null ? user.getCompany().getId() : null)
+                .customerId(user.getCustomer() != null ? user.getCustomer().getId() : null)
                 .build();
     }
 
@@ -155,13 +155,13 @@ public class AuthService {
                     .refreshToken(newRefreshToken)
                     .tokenType("Bearer")
                     .expiresIn(jwtUtil.getAccessTokenExpiration())
-                    .userId(user.getUserId())
+                    .userId(user.getId())
                     .fullName(user.getFullName())
                     .email(user.getEmail())
                     .role(user.getRole())
                     .userType(user.getUserType())
-                    .companyId(user.getCompany() != null ? user.getCompany().getCompanyId() : null)
-                    .customerId(user.getCustomer() != null ? user.getCustomer().getCustomerId() : null)
+                    .companyId(user.getCompany() != null ? user.getCompany().getId() : null)
+                    .customerId(user.getCustomer() != null ? user.getCustomer().getId() : null)
                     .build();
 
         } catch (Exception e) {

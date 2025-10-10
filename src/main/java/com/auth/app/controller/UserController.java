@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable UUID userId) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long userId) {
         UserResponseDto response = userService.getUserById(userId);
         return ResponseEntity.ok(response);
     }

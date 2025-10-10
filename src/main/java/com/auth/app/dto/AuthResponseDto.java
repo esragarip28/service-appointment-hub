@@ -23,7 +23,7 @@ public class AuthResponseDto {
 
     private Long expiresIn;
 
-    private UUID userId;
+    private Long userId;
 
     private String fullName;
 
@@ -33,7 +33,7 @@ public class AuthResponseDto {
 
     private UserType userType;
 
-    private UUID companyId;
+    private Long companyId;
 
-    private UUID customerId;
+    private Long customerId;
 }

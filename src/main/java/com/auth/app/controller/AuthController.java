@@ -3,6 +3,7 @@
 import com.auth.app.dto.*;
 import com.auth.app.entity.Role;
 import com.auth.app.entity.User;
+import com.auth.app.entity.UserType;
 import com.auth.app.repository.UserRepository;
 import com.auth.app.service.AuthService;
 import com.auth.app.service.GoogleAuthService;
@@ -74,6 +75,7 @@ public class AuthController {
                     newUser.setEmail(email);
                     newUser.setFullName(fullName);
                     newUser.setRole(Role.USER);
+                    newUser.setUserType(UserType.CUSTOMER);
                     return userRepository.save(newUser);
                 });
 
@@ -87,7 +89,7 @@ public class AuthController {
                         .refreshToken(refreshToken)
                         .tokenType("Bearer")
                         .expiresIn(jwtUtil.getAccessTokenExpiration())
-                        .userId(user.getUserId())
+                        .userId(user.getId())
                         .fullName(user.getFullName())
                         .email(user.getEmail())
                         .role(user.getRole())

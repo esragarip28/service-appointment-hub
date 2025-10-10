@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 public class UserResponseDto {
 
-    private UUID userId;
+    private Long userId;
 
     private String fullName;
 
@@ -28,11 +28,11 @@ public class UserResponseDto {
 
     private UserType userType;
 
-    private UUID companyId;
+    private Long companyId;
 
     private String companyName;
 
-    private UUID customerId;
+    private Long customerId;
 
     private String customerName;
 

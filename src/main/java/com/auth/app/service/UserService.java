@@ -53,7 +53,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponseDto getUserById(UUID userId) {
+    public UserResponseDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
@@ -62,15 +62,15 @@ public class UserService {
 
     private UserResponseDto mapToUserResponseDto(User user) {
         return UserResponseDto.builder()
-                .userId(user.getUserId())
+                .userId(user.getId())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .role(user.getRole())
                 .userType(user.getUserType())
-                .companyId(user.getCompany() != null ? user.getCompany().getCompanyId() : null)
+                .companyId(user.getCompany() != null ? user.getCompany().getId() : null)
                 .companyName(user.getCompany() != null ? user.getCompany().getCompanyName() : null)
-                .customerId(user.getCustomer() != null ? user.getCustomer().getCustomerId() : null)
+                .customerId(user.getCustomer() != null ? user.getCustomer().getId() : null)
                 .customerName(user.getCustomer() != null ? user.getCustomer().getCustomerName() : null)
                 .active(user.getActive())
                 .createdAt(user.getCreatedAt())
@@ -101,7 +101,7 @@ public class UserService {
        if (!CollectionUtils.isEmpty(users)){
            users.forEach(u->{
                UserResponseDto userResponseDto = new UserResponseDto();
-               userResponseDto.setUserId(u.getUserId());
+               userResponseDto.setUserId(u.getId());
                userResponseDto.setActive(u.getActive());
                userResponseDto.setUserType(u.getUserType());
                userResponseDto.setEmail(u.getEmail());
@@ -119,7 +119,7 @@ public class UserService {
         Page<User> users = userRepository.findAllWithFilters(fullName, email, role, pageable);
         Page<UserResponseDto> dtoPage = users.map(u -> {
             UserResponseDto userResponseDto = new UserResponseDto();
-            userResponseDto.setUserId(u.getUserId());
+            userResponseDto.setUserId(u.getId());
             userResponseDto.setActive(u.getActive());
             userResponseDto.setUserType(u.getUserType());
             userResponseDto.setEmail(u.getEmail());
